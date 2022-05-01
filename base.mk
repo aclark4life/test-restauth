@@ -162,7 +162,7 @@ define HOME_PAGE
 {% load webpack_loader static %}
 <div class="jumbotron py-5">
   <div class="container">
-    <h1 class="display-3">Hello, world!</h1>
+    <a href="/" class="text-decoration-none text-dark"><h1 class="display-3">Hello, world!</h1></a>
     <p>This is a template for a simple marketing or informational website. It includes a large callout called a
       jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
     <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
@@ -393,8 +393,10 @@ django-npm-install-default:
 #
 
 gitignore-default:
-	echo "bin/\nlib/\npyvenv.cfg\n__pycache__" > .gitignore
+	echo "bin/\nlib/\nlib64\nshare/\npyvenv.cfg\n__pycache__" > .gitignore
 	git add .gitignore
+	git commit -a -m "Add .gitignore"
+	git push
 
 git-branches-default:
 	-for i in $(GIT_BRANCHES) ; do \
@@ -428,6 +430,8 @@ black-default:
 	-black *.py
 	-black $(PROJECT_NAME)/*.py
 	-black $(PROJECT_NAME)/*/*.py
+	-git commit -a -m "A one time black event"
+	git push
 
 flake-default:
 	-flake8 *.py
@@ -470,7 +474,7 @@ rand-default:
 
 review-default:
 ifeq ($(UNAME), Darwin)
-	@open -a $(EDITOR) `find $(PROJECT_NAME) -name \*.py | grep -v __init__.py | grep -v migrations`\
+	@open -a $(REVIEW_EDITOR) `find $(PROJECT_NAME) -name \*.py | grep -v migrations`\
 		`find $(PROJECT_NAME) -name \*.html` `find $(PROJECT_NAME) -name \*.js`
 else
 	@echo "Unsupported"
@@ -486,6 +490,8 @@ usage-default:
 make-default:
 	git add base.mk
 	git add Makefile
+	git commit -a -m "Add project-makefile files"
+	git push
 
 init-default: gitignore make pip-init readme-init 
 
@@ -497,6 +503,9 @@ init-default: gitignore make pip-init readme-init
 pip-freeze-default:
 	pip3 freeze | sort > $(TMPDIR)/requirements.txt
 	mv -f $(TMPDIR)/requirements.txt .
+	git add requirements.txt
+	git commit -a -m "Freezing requirements."
+	git push
 
 pip-install-default: pip-upgrade
 	pip3 install wheel
@@ -527,6 +536,8 @@ readme-init-default:
 	@echo $(PROJECT_NAME) > README.rst
 	@echo "================================================================================\n" >> README.rst
 	@git add README.rst
+	git commit -a -m "Add readme"
+	git push
 
 readme-edit-default:
 	vi README.rst
@@ -626,8 +637,14 @@ load: loaddata
 .PHONY: migrate
 migrate: django-migrate
 
+.PHONY: migrations
+migrations: django-migrations
+
 .PHONY: npm-install
 npm-install: django-npm-install
+
+.PHONY: readme
+readme: readme-init
 
 .PHONY: serve
 serve: django-serve

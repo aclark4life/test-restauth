@@ -39,7 +39,7 @@ include base.mk
 #
 #
 # Uncomment the next line to customize the project name variable
-PROJECT_NAME := demo
+#PROJECT_NAME := project
 #
 # Uncomment the next line to customize the commit message variable
 #GIT_COMMIT := update
@@ -49,3 +49,6 @@ PROJECT_NAME := demo
 #
 # Uncomment the next line to customize the default goal
 .DEFAULT_GOAL := git-commit-push
+
+django-serve:
+	python manage.py runserver
