@@ -137,11 +137,10 @@ SWAGGER_SETTINGS = {
 }
 
 
-# For demo purposes only. Use a white list in the real world.
-CORS_ORIGIN_ALLOW_ALL = True
-
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
