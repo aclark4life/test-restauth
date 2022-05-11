@@ -43,13 +43,11 @@ INSTALLED_APPS = (
     "allauth.socialaccount",
     "allauth.socialaccount.providers.facebook",
     "drf_yasg",
-    "corsheaders",
     "webpack_boilerplate",
     "debug_toolbar",
 )
 
 MIDDLEWARE = (
-    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
